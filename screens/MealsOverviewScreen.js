@@ -1,17 +1,36 @@
 import { StyleSheet, FlatList, View } from "react-native";
-import React from "react";
-import { MEALS } from "../data/dummy-data";
+import React, { useLayoutEffect } from "react";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
 import MeailItem from "../components/MeailItem";
 
-const MealsOverviewScreen = ({ route }) => {
+const MealsOverviewScreen = ({ route, navigation }) => {
   const catId = route.params.categoryId;
 
   const displayMeals = MEALS.filter((mealItem) => {
     return mealItem.categoryIds.indexOf(catId) >= 0;
   });
 
+  useLayoutEffect(() => {
+    const categoryTitle = CATEGORIES.find(
+      (category) => category.id === catId
+    ).title;
+
+    navigation.setOptions({
+      title: categoryTitle,
+    });
+  }, [catId, navigation]);
+
   function renderMealItem(itemData) {
-    return <MeailItem title={itemData.item.title} />;
+    const item = itemData.item;
+    const mealItemProps = {
+      id: item.id,
+      title: item.title,
+      imageUrl: item.imageUrl,
+      affordability: item.affordability,
+      complexity: item.complexity,
+      duration: item.duration,
+    };
+    return <MeailItem {...mealItemProps} />;
   }
 
   return (
@@ -20,6 +39,7 @@ const MealsOverviewScreen = ({ route }) => {
         data={displayMeals}
         keyExtractor={(item) => item.id}
         renderItem={renderMealItem}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -30,6 +50,5 @@ export default MealsOverviewScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
   },
 });
