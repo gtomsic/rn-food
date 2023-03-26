@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import MealDeails from "./MealDeails";
+import MealDeails from "../MealDeails";
 
-const MeailItem = ({
+const MealItem = ({
   id,
   title,
   imageUrl,
@@ -45,7 +45,7 @@ const MeailItem = ({
   );
 };
 
-export default MeailItem;
+export default MealItem;
 
 const styles = StyleSheet.create({
   mealItem: {
